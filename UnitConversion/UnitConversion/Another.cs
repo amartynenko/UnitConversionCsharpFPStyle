@@ -127,115 +127,124 @@ namespace UnitConversion
 
         ////}
 
-       
+
 
         [Test]
-        public void SomeTest()
+        public void TheSimplest1()
         {
-            var result = DefaultIn().Print(new List<Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>>()).Where(x => x != null);
+            var result = TheSimplestInput1().Print(new List<Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>>()).Where(x => x != null);
             foreach (var s in result)
             {
-                Console.WriteLine(s);
+                Console.WriteLine(s().ToString());
             }
             Console.ReadLine();
         }
 
-        private IEnumerable<Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>> TheSimplest()
+        [Test]
+        public void TheSimplest2()
         {
-            //7200.0 second = 2 hour
-            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
-                new Tuple<double?, string>(7200.0, "second"),
-                new Tuple<double?, string>(2, "hour"));
-            //1 minute = 60 second
-            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
-                new Tuple<double?, string>(1, "minute"),
-                new Tuple<double?, string>(60, "second"));
-            //5.6 second = ? hour
-            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
-                new Tuple<double?, string>(5.6, "seconds"),
-                new Tuple<double?, string>(null, "hour"));
+            var result = TheSimplestInput2().Print(new List<Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>>()).Where(x => x != null);
+            foreach (var s in result)
+            {
+                Console.WriteLine(s().ToString());
+            }
+            Console.ReadLine();
         }
 
-        private IEnumerable<Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>> DefaultIn()
+        [Test]
+        public void TheSimplest3()
         {
-            //7200.0 second = 2 hour
+            var result = TheSimplestInput3().Print(new List<Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>>()).Where(x => x != null);
+            foreach (var s in result)
+            {
+                Console.WriteLine(s().ToString());
+            }
+            Console.ReadLine();
+        }
+
+        [Test]
+        public void TheSimplest4()
+        {
+            var result = TheSimplestInput4().Print(new List<Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>>()).Where(x => x != null);
+            foreach (var s in result)
+            {
+                Console.WriteLine(s().ToString());
+            }
+            Console.ReadLine();
+        }
+
+        private IEnumerable<Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>> TheSimplestInput1()
+        {
             yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
-                new Tuple<double?, string>(7200.0, "second"),
-                new Tuple<double?, string>(2, "hour"));
-            //10.0 glob = 1 decaglob
-            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
-                new Tuple<double?, string>(10.0, "glob"),
-                new Tuple<double?, string>(1, "decaglob"));
-            //1 day = 24.0 hour
-            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
-                new Tuple<double?, string>(1, "day"),
-                new Tuple<double?, string>(24.0, "hour"));
-            //1 minute = 60 second
+                new Tuple<double?, string>(120.0, "second"),
+                new Tuple<double?, string>(2, "minute"));
+            
             yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
                 new Tuple<double?, string>(1, "minute"),
-                new Tuple<double?, string>(60, "second"));
-            //1 glob = 10 centiglob
-            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
-                new Tuple<double?, string>(1, "glob"),
-                new Tuple<double?, string>(10, "centiglob"));
-            //1 day = 24 hour
-            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
-                new Tuple<double?, string>(1, "day"),
-                new Tuple<double?, string>(24, "hour"));
-            //1 year = 365.25 day
-            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
-                new Tuple<double?, string>(1, "year"),
-                new Tuple<double?, string>(365.25, "day"));
-            //50 centiglob = ? decaglob
-            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
-                new Tuple<double?, string>(50, "centiglob"),
-                new Tuple<double?, string>(null, "decaglob"));
-            //5.6 second = ? hour
-            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
-                new Tuple<double?, string>(5.6, "seconds"),
-                new Tuple<double?, string>(null, "hour"));
-            //3 millisecond = ? hour
-            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
-                new Tuple<double?, string>(3, "millisecond"),
-                new Tuple<double?, string>(null, "hour"));
-            //5.6 second = ? day
-            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
-                new Tuple<double?, string>(5.6, "second"),
-                new Tuple<double?, string>(null, "day"));
-            //1 day = ? glob
-            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
-                new Tuple<double?, string>(1, "day"),
-                new Tuple<double?, string>(null, "glob"));
-            //1 hour = ? second
-            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
-                new Tuple<double?, string>(1, "hour"),
                 new Tuple<double?, string>(null, "second"));
-            //1 year = ? second
+        }
+
+        private IEnumerable<Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>> TheSimplestInput2()
+        {
             yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
-               new Tuple<double?, string>(1, "year"),
-               new Tuple<double?, string>(null, "second"));
+                new Tuple<double?, string>(2, "minute"),
+                new Tuple<double?, string>(120.0, "second"));
+            
+            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
+                new Tuple<double?, string>(1, "minute"),
+                new Tuple<double?, string>(null, "second"));
+        }
+
+        private IEnumerable<Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>> TheSimplestInput3()
+        {
+            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
+                new Tuple<double?, string>(120.0, "second"),
+                new Tuple<double?, string>(2, "minute"));
+
+            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
+                new Tuple<double?, string>(60, "second"),
+                new Tuple<double?, string>(null, "minute"));
+        }
+
+        private IEnumerable<Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>> TheSimplestInput4()
+        {
+            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
+                new Tuple<double?, string>(2, "minute"),
+                new Tuple<double?, string>(120.0, "second"));
+
+            yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
+                new Tuple<double?, string>(60, "second"),
+                new Tuple<double?, string>(null, "minute"));
         }
     }
 
-     static class SomeExtensions
+    static class SomeExtensions
     {
-        public static IEnumerable<string> Print(this IEnumerable<Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>> input, List<Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>> accumulator)
+        public static IEnumerable<Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>> Print(this IEnumerable<Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>> input, List<Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>> accumulator)
         {
-            foreach(var equation in input)
+            foreach (var equation in input)
             {
                 if (equation().Item2.Item1 == null)
                 {
                     Func<
-                        Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>, 
-                        Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>, 
-                        Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>> 
+                        Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>,
+                        Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>,
+                        Func<Tuple<Tuple<double?, string>, Tuple<double?, string>>>>
                     findRelation = (unknown, item) =>
                         {
+                            ////120.0 second = 2 minute
+                            //yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
+                            //    new Tuple<double?, string>(2, "minute"),
+                            //    new Tuple<double?, string>(120.0, "second"));
+                            ////1 minute = ? second
+                            //yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
+                            //    new Tuple<double?, string>(1, "minute"),
+                            //    new Tuple<double?, string>(null, "second"));
                             if (unknown().Item1.Item2 == item().Item1.Item2)
                             {
                                 return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
                                     new Tuple<double?, string>(unknown().Item1.Item1, unknown().Item1.Item2),
-                                    new Tuple<double?, string>(unknown().Item1.Item1 / (item().Item2.Item1 / item().Item1.Item1), unknown().Item2.Item2));
+                                    new Tuple<double?, string>(unknown().Item1.Item1 * (item().Item2.Item1 / item().Item1.Item1), unknown().Item2.Item2));
                             }
                             if (unknown().Item2.Item2 == item().Item2.Item2)
                             {
@@ -243,11 +252,20 @@ namespace UnitConversion
                                     new Tuple<double?, string>(unknown().Item1.Item1, unknown().Item1.Item2),
                                     new Tuple<double?, string>(unknown().Item1.Item1 / (item().Item1.Item1 / item().Item2.Item1), unknown().Item2.Item2));
                             }
+                            //
+                            ////120.0 second = 2 minute
+                            //yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
+                            //    new Tuple<double?, string>(120.0, "second"),
+                            //    new Tuple<double?, string>(2, "minute"));
+                            ////1 minute = ? second
+                            //yield return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
+                            //    new Tuple<double?, string>(1, "minute"),
+                            //    new Tuple<double?, string>(null, "second"));
                             if (unknown().Item1.Item2 == item().Item2.Item2)
                             {
                                 return () => new Tuple<Tuple<double?, string>, Tuple<double?, string>>(
                                     new Tuple<double?, string>(unknown().Item1.Item1, unknown().Item1.Item2),
-                                    new Tuple<double?, string>(unknown().Item1.Item1 / (item().Item1.Item1 / item().Item2.Item1), unknown().Item2.Item2));
+                                    new Tuple<double?, string>(unknown().Item1.Item1 * (item().Item1.Item1 / item().Item2.Item1), unknown().Item2.Item2));
                             }
                             if (unknown().Item2.Item2 == item().Item1.Item2)
                             {
@@ -276,14 +294,12 @@ namespace UnitConversion
 
             foreach (var result in accumulator)
             {
-                if (result() != null)
-                    yield return result().ToString();
-                yield return "can not be evaluated";
+                yield return result;
             }
         }
     }
 
-     
+
 
     internal class Bar
     {
