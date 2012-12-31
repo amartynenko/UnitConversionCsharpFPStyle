@@ -57,14 +57,14 @@ namespace UnitConversion
         {
             yield return () => new
             {
-                Item1 = new Tuple<double?, string>(120.0, "second"),
-                Item2 = new Tuple<double?, string>(2, "minute")
+                Left = new { Amount = 120.0, UnitName = "second" },
+                Right = new { Amount = 2, UnitName = "minute" }
             };
 
             yield return () => new
             {
-                Item1 = new Tuple<double?, string>(1, "minute"),
-                Item2 = new Tuple<double?, string>(null, "second")
+                Left = new { Amount = 1, UnitName = "minute" },
+                Right = new { UnitName = "second" }
             };
         }
 
@@ -72,14 +72,14 @@ namespace UnitConversion
         {
             yield return () => new
             {
-                Item1 = new Tuple<double?, string>(2, "minute"),
-                Item2 = new Tuple<double?, string>(120.0, "second")
+                Left = new { Amount = 2, UnitName = "minute" },
+                Right = new { Amount = 120.0, UnitName = "second" }
             };
 
             yield return () => new
             {
-                Item1 = new Tuple<double?, string>(1, "minute"),
-                Item2 = new Tuple<double?, string>(null, "second")
+                Left = new { Amount = 1, UnitName = "minute" },
+                Right = new { UnitName = "second" }
             };
         }
 
@@ -87,14 +87,14 @@ namespace UnitConversion
         {
             yield return () => new
             {
-                Item1 = new Tuple<double?, string>(120.0, "second"),
-                Item2 = new Tuple<double?, string>(2, "minute")
+                Left = new { Amount = 120.0, UnitName = "second" },
+                Right = new { Amount = 2, UnitName = "minute" }
             };
 
             yield return () => new
             {
-                Item1 = new Tuple<double?, string>(60, "second"),
-                Item2 = new Tuple<double?, string>(null, "minute")
+                Left = new { Amount = 60, UnitName = "second" },
+                Right = new { UnitName = "minute" }
             };
         }
 
@@ -102,14 +102,14 @@ namespace UnitConversion
         {
             yield return () => new
             {
-                Item1 = new Tuple<double?, string>(2, "minute"),
-                Item2 = new Tuple<double?, string>(120.0, "second")
+                Left = new { Amount = 2, UnitName = "minute" },
+                Right = new { Amount = 120.0, UnitName = "second" }
             };
 
             yield return () => new
             {
-                Item1 = new Tuple<double?, string>(60, "second"),
-                Item2 = new Tuple<double?, string>(null, "minute")
+                Left = new { Amount = 60, UnitName = "second" },
+                Right = new { UnitName = "minute" }
             };
         }
     }
@@ -121,40 +121,51 @@ namespace UnitConversion
         {
             foreach (var equation in input)
             {
-                if (equation().Item2.Item1 == null)
+                if (equation().Right.Amount == null)
                 {
                     Func<Func<dynamic>, Func<dynamic>, Func<dynamic>> findRelation = (unknown, item) =>
                         {
-                            if (unknown().Item1.Item2 == item().Item1.Item2)
+                            if (unknown().Left.UnitName == item().Left.UnitName)
                             {
                                 return () => new
                                 {
-                                    Item1 = new Tuple<double?, string>(unknown().Item1.Item1, unknown().Item1.Item2),
-                                    Item2 = new Tuple<double?, string>(unknown().Item1.Item1 * (item().Item2.Item1 / item().Item1.Item1), unknown().Item2.Item2)
+                                    Left = new { unknown().Left.Amount, unknown().Left.UnitName },
+                                    Right = new { Amount = unknown().Left.Amount * (item().Right.Amount / item().Left.Amount), unknown().Right.UnitName }
                                 };
                             }
-                            if (unknown().Item2.Item2 == item().Item2.Item2)
+                            if (unknown().Right.UnitName == item().Right.UnitName)
                             {
                                 return () => new
                                 {
-                                    Item1 = new Tuple<double?, string>(unknown().Item1.Item1, unknown().Item1.Item2),
-                                    Item2 = new Tuple<double?, string>(unknown().Item1.Item1 / (item().Item1.Item1 / item().Item2.Item1), unknown().Item2.Item2)
+                                    Left = new { unknown().Left.Amount, unknown().Left.UnitName },
+                                    Right = new { Amount = unknown().Left.Amount / (item().Left.Amount / item().Right.Amount), unknown().Right.UnitName }
                                 };
                             }
-                            if (unknown().Item1.Item2 == item().Item2.Item2)
+                            if (unknown().Left.UnitName == item().Right.UnitName)
                             {
                                 return () => new
                                 {
-                                    Item1 = new Tuple<double?, string>(unknown().Item1.Item1, unknown().Item1.Item2),
-                                    Item2 = new Tuple<double?, string>(unknown().Item1.Item1 * (item().Item1.Item1 / item().Item2.Item1), unknown().Item2.Item2)
+                                    Left = new { unknown().Left.Amount, unknown().Left.UnitName },
+                                    Right = new { Amount = unknown().Left.Amount * (item().Left.Amount / item().Right.Amount), unknown().Right.UnitName }
                                 };
                             }
-                            if (unknown().Item2.Item2 == item().Item1.Item2)
+                            if (unknown().Right().UnitName() == item().Left().UnitName())
                             {
                                 return () => new
                                 {
-                                    Item1 = new Tuple<double?, string>(5.6, unknown().Item1.Item2),
-                                    Item2 = new Tuple<double?, string>(null, item().Item2.Item2)
+                                    Left = () => 
+                                        new
+                                        {
+                                            Amount = unknown().Left().Amount, 
+                                            UnitName = unknown().Left().UnitName
+                                        },
+                                    Right = () => {
+                                        new
+                                        {
+                                            Amount = () => { unknown().Left().Amount() * (item().Left().Amount() / item().Right().Amount()) }, 
+                                            UnitName = unknown().Right().UnitName
+                                        }
+                                    }
                                 };
                             }
                             return () => null;
