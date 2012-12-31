@@ -11,7 +11,7 @@ namespace UnitConversion
         [Test]
         public void TheSimplest1()
         {
-            var result = TheSimplestInput1().Print(new List<Func<dynamic>>()).Where(x => x != null);
+            var result = TheSimplestInput1().Solve(new List<Func<dynamic>>()).Where(x => x != null);
             foreach (var s in result)
             {
                 Console.WriteLine(s().ToString());
@@ -22,7 +22,7 @@ namespace UnitConversion
         [Test]
         public void TheSimplest2()
         {
-            var result = TheSimplestInput2().Print(new List<Func<dynamic>>()).Where(x => x != null);
+            var result = TheSimplestInput2().Solve(new List<Func<dynamic>>()).Where(x => x != null);
             foreach (var s in result)
             {
                 Console.WriteLine(s().ToString());
@@ -33,7 +33,7 @@ namespace UnitConversion
         [Test]
         public void TheSimplest3()
         {
-            var result = TheSimplestInput3().Print(new List<Func<dynamic>>()).Where(x => x != null);
+            var result = TheSimplestInput3().Solve(new List<Func<dynamic>>()).Where(x => x != null);
             foreach (var s in result)
             {
                 Console.WriteLine(s().ToString());
@@ -44,7 +44,7 @@ namespace UnitConversion
         [Test]
         public void TheSimplest4()
         {
-            var result = TheSimplestInput4().Print(new List<Func<dynamic>>()).Where(x => x != null);
+            var result = TheSimplestInput4().Solve(new List<Func<dynamic>>()).Where(x => x != null);
             foreach (var s in result)
             {
                 Console.WriteLine(s().ToString());
@@ -63,8 +63,8 @@ namespace UnitConversion
 
             yield return () => new
             {
-                Left = new { Amount = 1, UnitName = "minute" },
-                Right = new { UnitName = "second" }
+                Left = new { Amount = 3, UnitName = "minute" },
+                Right = new { Amount = new double?(), UnitName = "second" }
             };
         }
 
@@ -78,8 +78,8 @@ namespace UnitConversion
 
             yield return () => new
             {
-                Left = new { Amount = 1, UnitName = "minute" },
-                Right = new { UnitName = "second" }
+                Left = new { Amount = 3, UnitName = "minute" },
+                Right = new { Amount = new double?(), UnitName = "second" }
             };
         }
 
@@ -93,8 +93,8 @@ namespace UnitConversion
 
             yield return () => new
             {
-                Left = new { Amount = 60, UnitName = "second" },
-                Right = new { UnitName = "minute" }
+                Left = new { Amount = 180, UnitName = "second" },
+                Right = new { Amount = new double?(), UnitName = "minute" }
             };
         }
 
@@ -108,89 +108,63 @@ namespace UnitConversion
 
             yield return () => new
             {
-                Left = new { Amount = 60, UnitName = "second" },
-                Right = new { UnitName = "minute" }
+                Left = new { Amount = 180, UnitName = "second" },
+                Right = new { Amount = new double?(), UnitName = "minute" }
             };
         }
     }
         #endregion
 
-    static class SomeExtensions
+    static class FunctionContainer
     {
-        public static IEnumerable<Func<dynamic>> Print(this IEnumerable<Func<dynamic>> input, List<Func<dynamic>> accumulator)
+        public static IEnumerable<Func<dynamic>> Solve(this IEnumerable<Func<dynamic>> input, List<Func<dynamic>> accumulator)
         {
             foreach (var equation in input)
             {
                 if (equation().Right.Amount == null)
-                {
-                    Func<Func<dynamic>, Func<dynamic>, Func<dynamic>> findRelation = (unknown, item) =>
-                        {
-                            if (unknown().Left.UnitName == item().Left.UnitName)
-                            {
-                                return () => new
-                                {
-                                    Left = new { unknown().Left.Amount, unknown().Left.UnitName },
-                                    Right = new { Amount = unknown().Left.Amount * (item().Right.Amount / item().Left.Amount), unknown().Right.UnitName }
-                                };
-                            }
-                            if (unknown().Right.UnitName == item().Right.UnitName)
-                            {
-                                return () => new
-                                {
-                                    Left = new { unknown().Left.Amount, unknown().Left.UnitName },
-                                    Right = new { Amount = unknown().Left.Amount / (item().Left.Amount / item().Right.Amount), unknown().Right.UnitName }
-                                };
-                            }
-                            if (unknown().Left.UnitName == item().Right.UnitName)
-                            {
-                                return () => new
-                                {
-                                    Left = new { unknown().Left.Amount, unknown().Left.UnitName },
-                                    Right = new { Amount = unknown().Left.Amount * (item().Left.Amount / item().Right.Amount), unknown().Right.UnitName }
-                                };
-                            }
-                            if (unknown().Right().UnitName() == item().Left().UnitName())
-                            {
-                                return () => new
-                                {
-                                    Left = () => 
-                                        new
-                                        {
-                                            Amount = unknown().Left().Amount, 
-                                            UnitName = unknown().Left().UnitName
-                                        },
-                                    Right = () => {
-                                        new
-                                        {
-                                            Amount = () => { unknown().Left().Amount() * (item().Left().Amount() / item().Right().Amount()) }, 
-                                            UnitName = unknown().Right().UnitName
-                                        }
-                                    }
-                                };
-                            }
-                            return () => null;
-                        };
-
-                    foreach (var resolvedEquation in accumulator)
-                    {
-                        var newRelation = findRelation(equation, resolvedEquation);
-                        if (newRelation != null)
-                        {
-                            accumulator.Add(newRelation);
-                            break;
-                        }
-                    }
-                }
+                    accumulator = accumulator.Foo(equation, accumulator);
                 else
-                {
                     accumulator.Add(equation);
-                }
             }
 
             foreach (var result in accumulator)
-            {
                 yield return result;
+        }
+
+        public static List<Func<dynamic>> Foo(this IEnumerable<Func<dynamic>> list, Func<dynamic> equation, List<Func<dynamic>> accumulator)
+        {
+            Func<Func<dynamic>, Func<dynamic>, Func<dynamic>> findRelation = (unknown, item) =>
+            {
+                if (unknown().Left.UnitName == item().Left.UnitName)
+                {
+                    return () => new
+                    {
+                        unknown().Left,
+                        Right = new { Amount = unknown().Left.Amount * (item().Right.Amount / item().Left.Amount), unknown().Right.UnitName }
+                    };
+                }
+                if (unknown().Left.UnitName == item().Right.UnitName)
+                {
+                    return () => new
+                    {
+                        unknown().Left,
+                        Right = new { Amount = unknown().Left.Amount * (item().Left.Amount / item().Right.Amount), unknown().Right.UnitName }
+                    };
+                }
+                return () => null;
+            };
+
+            foreach (var resolvedEquation in list)
+            {
+                var newRelation = findRelation(equation, resolvedEquation);
+                if (newRelation != null)
+                {
+                    accumulator.Add(newRelation);
+                    break;
+                }
             }
+
+            return accumulator;
         }
     }
 }
