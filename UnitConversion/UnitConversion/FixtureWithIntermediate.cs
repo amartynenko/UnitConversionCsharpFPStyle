@@ -1,24 +1,23 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace UnitConversion
 {
     [TestFixture]
-    public class TheSimplestFixture
+    public class FixtureWithIntermediate
     {
         [Test]
-        public void TheSimplest1()
+        public void Test1()
         {
-            var result = TheSimplestInput1().CheckAndEvaluateEach().Format().ConcatAll();
+            var result = Input1().CheckAndEvaluateEach().Format().ConcatAll();
 
             Console.WriteLine(result);
-            Assert.That(result, Is.EqualTo("120 second = 2 minute\r\n3 minute = 180 second\r\n"));
+            Assert.That(result, Is.EqualTo("120 second = 2 minute\r\n4 hour = 240 minute\r\n3600 second = 1 hour\r\n"));
         }
 
         [Test]
-        public void TheSimplest2()
+        public void Test2()
         {
             var result = TheSimplestInput2().CheckAndEvaluateEach().Format().ConcatAll();
 
@@ -27,7 +26,7 @@ namespace UnitConversion
         }
 
         [Test]
-        public void TheSimplest3()
+        public void Test3()
         {
             var result = TheSimplestInput3().CheckAndEvaluateEach().Format().ConcatAll();
 
@@ -36,7 +35,7 @@ namespace UnitConversion
         }
 
         [Test]
-        public void TheSimplest4()
+        public void Test4()
         {
             var result = TheSimplestInput4().CheckAndEvaluateEach().Format().ConcatAll();
 
@@ -45,7 +44,7 @@ namespace UnitConversion
         }
 
         #region the simplest input
-        private IEnumerable<Func<dynamic>> TheSimplestInput1()
+        private IEnumerable<Func<dynamic>> Input1()
         {
             yield return () => new
             {
@@ -55,8 +54,14 @@ namespace UnitConversion
 
             yield return () => new
             {
-                Left = new { Amount = 3, UnitName = "minute" },
-                Right = new { Amount = new double?(), UnitName = "second" }
+                Left = new { Amount = 4.0, UnitName = "hour" },
+                Right = new { Amount = 240, UnitName = "minute" }
+            };
+
+            yield return () => new
+            {
+                Left = new { Amount = 3600, UnitName = "second" },
+                Right = new { Amount = new double?(), UnitName = "hour" }
             };
         }
 

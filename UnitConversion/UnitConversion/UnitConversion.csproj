@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FixtureWithIntermediate.cs" />
+    <Compile Include="FunctionContainer.cs" />
     <Compile Include="TheSimplestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
