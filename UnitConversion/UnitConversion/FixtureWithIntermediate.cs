@@ -19,31 +19,13 @@ namespace UnitConversion
         [Test]
         public void Test2()
         {
-            var result = TheSimplestInput2().CheckAndEvaluateEach().Format().ConcatAll();
+            var result = Input2().CheckAndEvaluateEach().Format().ConcatAll();
 
             Console.WriteLine(result);
-            Assert.That(result, Is.EqualTo("2 minute = 120 second\r\n3 minute = 180 second\r\n"));
+            Assert.That(result, Is.EqualTo("120 second = 2 minute\r\n4 hour = 240 minute\r\n1 hour = 3600 second\r\n"));
         }
 
-        [Test]
-        public void Test3()
-        {
-            var result = TheSimplestInput3().CheckAndEvaluateEach().Format().ConcatAll();
-
-            Console.WriteLine(result);
-            Assert.That(result, Is.EqualTo("120 second = 2 minute\r\n180 second = 3 minute\r\n"));
-        }
-
-        [Test]
-        public void Test4()
-        {
-            var result = TheSimplestInput4().CheckAndEvaluateEach().Format().ConcatAll();
-
-            Console.WriteLine(result);
-            Assert.That(result, Is.EqualTo("2 minute = 120 second\r\n180 second = 3 minute\r\n"));
-        }
-
-        #region the simplest input
+        #region the input with intermediate equations
         private IEnumerable<Func<dynamic>> Input1()
         {
             yield return () => new
@@ -65,22 +47,7 @@ namespace UnitConversion
             };
         }
 
-        private IEnumerable<Func<dynamic>> TheSimplestInput2()
-        {
-            yield return () => new
-            {
-                Left = new { Amount = 2, UnitName = "minute" },
-                Right = new { Amount = 120.0, UnitName = "second" }
-            };
-
-            yield return () => new
-            {
-                Left = new { Amount = 3, UnitName = "minute" },
-                Right = new { Amount = new double?(), UnitName = "second" }
-            };
-        }
-
-        private IEnumerable<Func<dynamic>> TheSimplestInput3()
+        private IEnumerable<Func<dynamic>> Input2()
         {
             yield return () => new
             {
@@ -90,23 +57,14 @@ namespace UnitConversion
 
             yield return () => new
             {
-                Left = new { Amount = 180, UnitName = "second" },
-                Right = new { Amount = new double?(), UnitName = "minute" }
-            };
-        }
-
-        private IEnumerable<Func<dynamic>> TheSimplestInput4()
-        {
-            yield return () => new
-            {
-                Left = new { Amount = 2, UnitName = "minute" },
-                Right = new { Amount = 120.0, UnitName = "second" }
+                Left = new { Amount = 4.0, UnitName = "hour" },
+                Right = new { Amount = 240, UnitName = "minute" }
             };
 
             yield return () => new
             {
-                Left = new { Amount = 180, UnitName = "second" },
-                Right = new { Amount = new double?(), UnitName = "minute" }
+                Left = new { Amount = 1, UnitName = "hour" },
+                Right = new { Amount = new double?(), UnitName = "second" }
             };
         }
     }
