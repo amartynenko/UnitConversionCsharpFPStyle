@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace UnitConversion
 {
     [TestFixture]
-    public class TheSimplestFixture
+    public class TheSimplestFixture : InvariantCultureFixture
     {
         [Test]
         public void TheSimplest1()
@@ -14,7 +14,7 @@ namespace UnitConversion
             var result = TheSimplestInput1().CheckAndEvaluateEach().Format().ConcatAll();
 
             Console.WriteLine(result);
-            Assert.That(result, Is.EqualTo("120 second = 2 minute\r\n3 minute = 180 second\r\n"));
+            Assert.That(result, Is.EqualTo("3.000000 minute = 180.000000 second\r\n"));
         }
 
         [Test]
@@ -23,7 +23,7 @@ namespace UnitConversion
             var result = TheSimplestInput2().CheckAndEvaluateEach().Format().ConcatAll();
 
             Console.WriteLine(result);
-            Assert.That(result, Is.EqualTo("2 minute = 120 second\r\n3 minute = 180 second\r\n"));
+            Assert.That(result, Is.EqualTo("3.000000 minute = 180.000000 second\r\n"));
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace UnitConversion
             var result = TheSimplestInput3().CheckAndEvaluateEach().Format().ConcatAll();
 
             Console.WriteLine(result);
-            Assert.That(result, Is.EqualTo("120 second = 2 minute\r\n180 second = 3 minute\r\n"));
+            Assert.That(result, Is.EqualTo("180.000000 second = 3.000000 minute\r\n"));
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace UnitConversion
             var result = TheSimplestInput4().CheckAndEvaluateEach().Format().ConcatAll();
 
             Console.WriteLine(result);
-            Assert.That(result, Is.EqualTo("2 minute = 120 second\r\n180 second = 3 minute\r\n"));
+            Assert.That(result, Is.EqualTo("180.000000 second = 3.000000 minute\r\n"));
         }
 
         #region the simplest input

@@ -12,7 +12,7 @@ namespace UnitConversion
             var sb = new StringBuilder();
 
             foreach (var s in strings)
-                sb.Append(s);
+                sb.Append(s).Append("\r\n");
 
             return sb.ToString();
         }
@@ -22,17 +22,23 @@ namespace UnitConversion
             foreach (var fact in facts)
             {
                 if (fact == null)
-                    yield return "Can not calculate";
+                    yield return "No conversion is possible.";
                 else
-                    yield return string.Format("{0} {1} = {2} {3}\r\n",
-                        fact().Left.Amount, fact().Left.UnitName,
-                        fact().Right.Amount, fact().Right.UnitName);
+                    yield return string.Format("{0} = {1}", FormatPart(fact().Left), FormatPart(fact().Right));
             }
+        }
+
+        public static string FormatPart(dynamic part)
+        {
+            if ((part.Amount < 1000000.0) && (part.Amount >= 0.1))
+                return string.Format("{0:0.000000} {1}", part.Amount, part.UnitName);
+
+            return string.Format("{0:0.000000e+00} {1}", part.Amount, part.UnitName);
         }
 
         public static IEnumerable<Func<dynamic>> CheckAndEvaluateEach(this IEnumerable<Func<dynamic>> input)
         {
-            var evaluatedAlready = new List<Func<dynamic>>();
+            IEnumerable<Func<dynamic>> evaluatedAlready = new List<Func<dynamic>>();
 
             foreach (var equation in input)
             {
@@ -40,8 +46,8 @@ namespace UnitConversion
                     yield return equation.TryEvaluate(evaluatedAlready);
                 else
                 {
-                    evaluatedAlready.Add(equation);
-                    yield return equation;
+                    var copy = evaluatedAlready.Concat(new[] { equation });
+                    evaluatedAlready = copy;
                 }
             }
         }
@@ -68,7 +74,7 @@ namespace UnitConversion
             return () => new
             {
                 Left = new { Amount = from().Left.Amount * (to().Right.Amount / to().Left.Amount), to().Right.UnitName },
-                from().Right 
+                from().Right
             };
         }
 

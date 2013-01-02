@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace UnitConversion
 {
     [TestFixture]
-    public class FixtureWithIntermediate
+    public class FixtureWithIntermediate : InvariantCultureFixture
     {
         [Test]
         public void Test1()
@@ -13,7 +13,7 @@ namespace UnitConversion
             var result = Input1().CheckAndEvaluateEach().Format().ConcatAll();
 
             Console.WriteLine(result);
-            Assert.That(result, Is.EqualTo("120 second = 2 minute\r\n4 hour = 240 minute\r\n3600 second = 1 hour\r\n"));
+            Assert.That(result, Is.EqualTo("3600.000000 second = 1.000000 hour\r\n"));
         }
 
         [Test]
@@ -22,7 +22,7 @@ namespace UnitConversion
             var result = Input2().CheckAndEvaluateEach().Format().ConcatAll();
 
             Console.WriteLine(result);
-            Assert.That(result, Is.EqualTo("120 second = 2 minute\r\n4 hour = 240 minute\r\n1 hour = 3600 second\r\n"));
+            Assert.That(result, Is.EqualTo("1.000000 hour = 3600.000000 second\r\n"));
         }
 
         #region the input with intermediate equations
